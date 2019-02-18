@@ -1,0 +1,66 @@
+<div>
+<div class="row">
+
+  <div id="chartContainer" class="column"></div><br/>
+   
+<div class="column" style="background-color: #aaa"> 
+
+<h4>Select region: {{region}}</h4>
+<mat-form-field>
+  <select matNativeControl #r on-change="regionChange(r)">
+    <option value="Wales">Wales</option>
+    <option value="UK">UK</option>
+    <option value="Scotland">Scotland</option>
+    <option value="England">England</option>
+  </select>
+</mat-form-field>
+
+<h4>Select Unit: {{unit}}</h4>
+<mat-form-field>
+  <select matNativeControl #u on-change="unitChange(u)">
+    <option value="Rainfall">Rainfall</option>
+    <option value="Tmax">TMax</option>
+    <option value="Tmin">TMin</option>
+  </select>
+</mat-form-field>
+</div>
+</div>
+
+<div class="row" style="margin-top: 0px;background-color: #bbb;">
+
+	<h3>Filter By Date:</h3>
+	
+   <div class="column" style="background-color: #bbb;">
+   	<h5>Select Start Date:</h5>
+
+   	<mat-form-field>
+	  <input matInput [matDatepicker]="dp1" placeholder="Month and Year" [formControl]="sdate">
+	  <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+	  <mat-datepicker #dp1
+	                  startView="multi-year"
+	                  (yearSelected)="startYearHandler($event)"
+	                  (monthSelected)="startMonthHandler($event, dp1)"
+	                  panelClass="example-month-picker">
+	  </mat-datepicker>
+    </mat-form-field>
+
+   	</div>
+   	<div class="column" style="background-color: #bbb;">
+   	<h5>Select End Date:</h5>
+
+   	<mat-form-field>
+	  <input matInput [matDatepicker]="dp" placeholder="End Date" [formControl]="edate">
+	  <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+	  <mat-datepicker #dp
+	                  startView="multi-year"
+	                  (yearSelected)="endYearHandler($event)"
+	                  (monthSelected)="endMonthHandler($event, dp)"
+	                  panelClass="example-month-picker">
+	  </mat-datepicker>
+	</mat-form-field>
+
+   	</div>
+</div>
+
+</div>
+
