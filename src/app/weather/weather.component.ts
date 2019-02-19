@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import * as CanvasJS from './canvasjs.min';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 import {FormControl} from '@angular/forms';
+import {MatDatepicker} from '@angular/material/datepicker';
 import * as _moment from 'moment';
-import {default as _rollupMoment, Moment} from 'moment';
+import { Moment} from 'moment';
 
-const moment = _rollupMoment || _moment;
+const moment = _moment;
 
 @Component({
   selector: 'app-weather',
@@ -14,8 +15,21 @@ const moment = _rollupMoment || _moment;
 })
 export class WeatherComponent implements OnInit {
 
-	sdate = new FormControl(moment('1/2/2012'));
-	edate = new FormControl(moment('1/2/2015'));
+  sdate = new FormControl(moment('1/2/2012'));
+  edate = new FormControl(moment('1/2/2015'));
+  
+  unit = 'Rainfall'
+  region = 'Wales' 
+  dataPoints = [{x:0,y:0}]
+  startDate = new Date(2012,0,1).getTime();
+  endDate = new Date(2015,0,1).getTime()
+
+ constructor() {      
+ }
+
+  ngOnInit() {
+      this.fetchData()
+  }
 
   startYearHandler(normalizedYear: Moment) {
     const ctrlValue = this.sdate.value;
@@ -47,20 +61,6 @@ export class WeatherComponent implements OnInit {
     this.fetchData()
   }
 
-  unit = 'Rainfall'
-  region = 'Wales' 
-  dataPoints = [{x:0,y:0}]
-  startDate = new Date(2012,0,1).getTime();
-  endDate = new Date(2015,0,1).getTime()
-
-  constructor() {
-       
-    }
-
-  ngOnInit() {
-      this.fetchData()
-    }
-
   unitChange(e){
    this.unit = e.value
    this.fetchData()
@@ -73,9 +73,9 @@ export class WeatherComponent implements OnInit {
 
   fetchData(){
 
+    var proxyUrl = 'https://cors-anywhere.herokuapp.com/'
   	var targetUrl = `https://s3.eu-west-2.amazonaws.com/interview-question-data/metoffice/${this.unit}-${this.region}.json`
-
-  	var request = new Request(targetUrl);
+  	var request = new Request(proxyUrl + targetUrl);
   	fetch(request,{mode:'cors'})
       .then(blob => blob.json())
       .then(data => {
